@@ -8,14 +8,16 @@ import { H1, H2, Message } from './App/App.styled';
 const LS_KEY = 'CONTACTS';
 
 export function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(window.localStorage.getItem(LS_KEY)) ?? []
+  );
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    const savedContacts = localStorage.getItem(LS_KEY);
-    if (savedContacts) setContacts(JSON.parse(savedContacts));
-    console.log(savedContacts);
-  }, []);
+  // useEffect(() => {
+  //   const savedContacts = localStorage.getItem(LS_KEY);
+  //   if (savedContacts) setContacts(JSON.parse(savedContacts));
+  //   console.log(savedContacts);
+  // }, []);
 
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(contacts));
@@ -37,10 +39,9 @@ export function App() {
       alert(`${name} is already in contacts`);
       return;
     }
-    setContacts(
-      [newContact, ...contacts].sort((firstContact, secondContact) =>
+    setContacts(prevContacts => [...prevContacts, newContact]).sort(
+      (firstContact, secondContact) =>
         firstContact.name.localeCompare(secondContact.name)
-      )
     );
   };
 
