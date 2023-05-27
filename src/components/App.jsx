@@ -39,9 +39,10 @@ export function App() {
       alert(`${name} is already in contacts`);
       return;
     }
-    setContacts(prevContacts => [...prevContacts, newContact]).sort(
-      (firstContact, secondContact) =>
+    setContacts(prevContacts =>
+      [...prevContacts, newContact].sort((firstContact, secondContact) =>
         firstContact.name.localeCompare(secondContact.name)
+      )
     );
   };
 
